@@ -4,10 +4,6 @@
  */
 package jogoguerra;
 
-/**
- *
- * @author dti
- */
 public interface EstrategiaStrategy {
     void atacar(Pais inimigo);
     void concluir(Pais inimigo);

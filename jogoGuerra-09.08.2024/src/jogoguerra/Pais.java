@@ -4,14 +4,13 @@
  */
 package jogoguerra;
 
-/**
- *
- * @author dti
- */
 public class Pais {
     
     private String nome;
     private int qtdSoldados;
+    private int credibilidade = 31;
+    private int economia = 500;
+    private int territorio = 150;
     private boolean armamento;
     private EstrategiaStrategy estrategia;
 
@@ -28,11 +27,30 @@ public class Pais {
     public int getQtdSoldados() {
         return qtdSoldados;
     }
+    
+    public int getCredibilidade() {
+        return credibilidade;
+    }
+    
+    public int getEconomia() {
+        return economia;
+    }
 
     public boolean isArmamento() {
         return armamento;
     }
 
+    public void setQtdSoldados(int qtdSoldados){
+        this.qtdSoldados = qtdSoldados;
+    }
+    
+    public void setCredibilidade(int credibilidade){
+        this.credibilidade = credibilidade;
+    }
+    
+    public void setEconomia(int economia){
+        this.economia = economia;
+    }
 
     public void setEstrategia(EstrategiaStrategy estrategia) {
         this.estrategia = estrategia;
@@ -43,12 +61,12 @@ public class Pais {
     
     public void declararGuerra(Pais inimigo){
         this.estrategia.atacar(inimigo);
-        this.estrategia.concluir(inimigo);
+        //this.estrategia.concluir(inimigo);
     }
 
     @Override
     public String toString() {
-        return ("\nNome: "+this.nome);
+        return (this.nome);
     }
     
     

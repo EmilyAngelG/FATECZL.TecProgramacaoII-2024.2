@@ -1,0 +1,11 @@
+PASSO A PASSO PARA CRIAR A CONEXÃO COM O BANCO DE DADOS UTILIZANDO O PADRÃO DAO COM JAVA
+
+DA ESTRUTURA DO PROJETO
+Para conectar o Java ao banco de dados utilizando o padrão DAO precisaremos de três partições que separaremos em pacotes:
+
+-> br.com.fatec.dao
+   Aqui teremos a conexão propriamente dita, usaremos importações do java.sql e o connector do nosso banco de dados
+   Para esse exemplo usaremos o MySQL, porém, é possível utilizar qualquer banco de dados relacional utilizando o connector apropriado
+   Vale resaltar que estamos aprendendo a estabelecer a conexão com banco de dados relacional, por hora não veremos banco de dados não relacional em Java
+
+-> 

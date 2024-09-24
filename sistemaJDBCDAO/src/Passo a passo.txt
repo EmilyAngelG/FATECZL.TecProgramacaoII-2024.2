@@ -1,11 +1,123 @@
 PASSO A PASSO PARA CRIAR A CONEXÃO COM O BANCO DE DADOS UTILIZANDO O PADRÃO DAO COM JAVA
 
+1° COISA: Antes de iniciar a codificação deve-se adicionar a biblioteca do projeto (pasta Libraries) o connector .jar
+do SGBD que será utilizado. Esse conector pode ser atualizado, portanto, é importante verificar a sua versão.
+Para esse projeto estaremos utilizando o conector do MySQL em sua atual versão 8.3.0
+
+
 DA ESTRUTURA DO PROJETO
-Para conectar o Java ao banco de dados utilizando o padrão DAO precisaremos de três partições que separaremos em pacotes:
 
--> br.com.fatec.dao
-   Aqui teremos a conexão propriamente dita, usaremos importações do java.sql e o connector do nosso banco de dados
-   Para esse exemplo usaremos o MySQL, porém, é possível utilizar qualquer banco de dados relacional utilizando o connector apropriado
-   Vale resaltar que estamos aprendendo a estabelecer a conexão com banco de dados relacional, por hora não veremos banco de dados não relacional em Java
+Para conectar o Java ao banco de dados utilizando o padrão DAO precisaremos de três partições que separaremos em packages:
 
--> 
+->  br.com.fatec.factory
+
+    Aqui teremos a conexão propriamente dita, usaremos importações do java.sql e o connector do nosso banco de dados
+    Para esse exemplo usaremos o MySQL, porém, é possível utilizar qualquer banco de dados relacional utilizando o connector 
+    apropriado
+    Vale resaltar que estamos aprendendo a estabelecer a conexão com banco de dados relacional, por hora não veremos banco de 
+    dados não relacional em Java
+
+
+->  br.com.fatec.model
+
+    Aqui teremos a estrutura das nossas tabelas que virão do banco de dados, ou seja, para cada tabela do banco de dados 
+    faremos nesse package uma classe correspondente com atributos que armazenarão os atributos da tabela do banco de dados.
+
+    Como exemplo, estamos utilizando um banco de dados que tem a tabela Usuarios, veja a comparação entre a tabela criada 
+    no banco de dados e a classe Usuario que criamos nesse package:
+
+    No banco MySQL:
+    
+    create table usuarios(
+	id INT NOT NULL auto_increment,
+        nome varchar(50),
+	login varchar(50),
+	senha varchar(10),
+        primary key(id)
+    );
+
+    Na classe Usuario:
+
+    public class Usuario {
+        private int id;
+        private String nome;
+        private String login;
+        private String senha;
+ 
+        //Esse construtor tem o id porque ele irá ser usado para receber os usuários 
+        //vindo do banco de dados, portanto, esse id é o que já está no banco
+        public Usuario(int id, String nome, String login, String senha) {
+            this.id = id;
+            this.nome = nome;
+            this.login = login;
+            this.senha = senha;
+        }
+    
+        //Esse construtor está sem id para quando nós formos criar um usuário no 
+        //banco de dados, pois, o id é fornecido pelo banco não por nós
+        public Usuario(String nome, String login, String senha) {
+            this.nome = nome;
+            this.login = login;
+            this.senha = senha;
+        }
+
+        Getters, Setters, ToString e métodos da classe...
+    
+
+->  br.com.fatec.dao
+    
+    Aqui faremos todos os processos do banco de dados, ou seja, o CRUD completo. Para isso precisaremos criar para cada 
+    tabela do nosso banco de dados uma classe, e dentro dela determinar para cada etapa do CRUD um método correspondente. 
+    
+    Aqui cada método irá receber o objeto Usuario ou um atributo pertinente para realizar o CRUD. Os métodos irão definir 
+    um comando sql generalista armazenado em string correspondente ao processo CRUD que irá realizar, em seguida irá 
+    substituir nessa String generalista os dados correspondentes aos atributos a processar e então estabelecerá novamente 
+    a conexão com o banco de dados e executará o comando.
+
+
+DINÂMICA ENTRE FACTORY, MODEL E CLASSES DAO
+
+1°  A classe fatctory é a primeira participante, e ela que executa de fato a conexão com o banco de dados recebendo para 
+    isso as credenciais de acesso. Ela é executada apenas uma vez no código, porém, ela define o método connector que 
+    será utilizado posteriormente em cada manipulação a ser realizada no banco de dados durante a execução do programa. 
+    Por essa razão, para manipular o banco de dados é sempre preciso realizar a importação desse package e da classe 
+    para utilizar o método conector nela definido.
+
+2°  Uma vez estabelecida a conexão do banco de dados com sucesso, podemos inserir dados na tabela do banco de dados.
+    A dinâmica aqui envolve a classe da tabela do banco e a classe DAO dessa tabela.
+
+    Primeiro instanciamos um objeto da classe da tabela com os atributos necessários.
+    No exemplo com a tabela Usuarios:
+
+    Usuario user= new Usuario("Nelson Firmino","nelson@gmail.com","1234");
+
+    Em seguida chamamos a classe DAO correspondente e entregamos esse objeto ao método correspondente a etapa do CRUD
+    Seguindo o exemplo da tabela Usuarios:
+
+    UsuarioDAO.insere(user);
+
+    
+    Ou podemos fazer uma etapa só. Usando o exemplo da tabela Usuarios:
+
+    UsuarioDAO.insere(new Usuario("Vanessa Guedes","vanessa@gmail.com","1234"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -8,6 +8,8 @@ import br.com.fatec.factory.ConnectionFactory;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.sql.ResultSet;
 
 
 /**
@@ -15,10 +17,12 @@ import java.sql.PreparedStatement;
  * @author dti
  */
 
-//AQUI FICAM AS CLASSES MODELOS DAO QUE IRÃO RECEBER OS DADOS DO BANCO DE DADOS
+//AQUI FICAM OS MÉTODOS CRUD DA TABELA USUARIO DO BANCO DE DADOS
 public class UsuarioDAO {
 
-//CRUD DO BANCO DE DADOS - INSERT    
+    //MÉTODO INSERT
+    //Aqui recebemos um objeto do tipo USUARIO que está definido no model
+    //Em seguida adcionamos ele ao banco de dados
     public static void insere(Usuario user) throws SQLException{
         
         //Para manipular o banco de dados usamos comandos sql
@@ -66,5 +70,94 @@ public class UsuarioDAO {
             if(conn!=null)conn.close();
         }      
     }
+    
+    
+    //MÉTODO REMOVE
+    //Aqui podemos receber apenas no id do usuario que queremos remover
+    public static void remove(int id) throws SQLException{
+        
+        String sql="DELETE FROM usuarios WHERE id = ?";
+        
+        Connection conn= null;
+        PreparedStatement pstm=null;
+        
+        try{
+            conn= ConnectionFactory.createConnection();
+            pstm= (PreparedStatement) conn.prepareStatement(sql);
+            
+           // Substituindo no sql o número do id
+            pstm.setString(1,String.valueOf(id));
+            //Executando a query
+             pstm.execute();
 
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            if(pstm!=null)pstm.close();
+            if(conn!=null)conn.close();
+        }      
+    }
+    
+    //MÉTODO PARA LISTAR TODOS OS REGISTROS
+    public static ArrayList<Usuario> listarBD(){
+    	 
+        //Sql para selecionar todos os registros do banco de dados
+        String sql = "SELECT * FROM usuarios";
+
+        //Criando uma lista do tipo Usuario para receber os dados
+        ArrayList<Usuario> lista = new ArrayList<>();
+
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        
+        //Classe que vai recuperar os dados do banco de dados
+        ResultSet rset = null;
+
+        try {
+            conn = ConnectionFactory.createConnection();
+            pstm = conn.prepareStatement(sql);
+            rset = pstm.executeQuery();
+
+            //Enquanto existir dados no banco de dados, faça
+            while(rset.next()){
+
+                Usuario user = new Usuario();    	 
+                //Recupera o id do banco e atribui ele ao objeto
+                user.setId(rset.getInt("id"));
+
+                //Recupera o nome do banco e atribui ele ao objeto
+                user.setNome(rset.getString("nome"));
+
+                //Recupera a login do banco e atribui ele ao objeto
+                user.setLogin(rset.getNString("login"));
+
+                //Recupera a senha do banco e atribui ela ao objeto
+                user.setSenha(rset.getNString("senha"));
+
+                //Adiciono o contato recuperado, a lista de contatos
+                lista.add(user);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        finally{
+            try{
+                if(rset != null){
+                    rset.close();
+                }
+                if(pstm != null){
+                    pstm.close();
+                }
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        return lista;
+    }
+    
 }

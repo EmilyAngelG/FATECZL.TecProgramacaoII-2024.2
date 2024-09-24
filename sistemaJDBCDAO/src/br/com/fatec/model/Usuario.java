@@ -9,8 +9,8 @@ package br.com.fatec.model;
  * @author dti
  */
 
-//AQUI FICAM AS CLASSES USADAS DENTRO DO PROGRAMA
-
+//ESSA CLASSE É O MODELO DA TABELA USUARIO QUE SERÁ USADA DENTRO DO PROGRAMA
+//Os atributos dessa classe devem corresponder aos da tabela no banco de dados
 public class Usuario {
     private int id;
     private String nome;
@@ -35,6 +35,10 @@ public class Usuario {
     }
     
     public Usuario(){}
+    
+    
+    //A partir daqui a lógica relacionada a classes permanece a mesma com 
+    //Getters, Setters, ToString e os métodos de interesse
 
     public int getId() {
         return id;
@@ -70,8 +74,8 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuário:\n ID: "+ this.id +"\nNome: "+this.nome+
-                "\nLogin: "+this.login+"\nSenha: "+this.senha;
+        return "Usuário:\nID: "+ this.id +"\nNome: "+this.nome+
+                "\nLogin: "+this.login+"\nSenha: "+this.senha+"\n";
     }
     
     

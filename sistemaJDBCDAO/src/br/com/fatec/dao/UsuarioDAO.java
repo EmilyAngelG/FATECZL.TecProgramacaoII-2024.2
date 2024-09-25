@@ -18,6 +18,8 @@ import java.sql.ResultSet;
  */
 
 //AQUI FICAM OS MÉTODOS CRUD DA TABELA USUARIO DO BANCO DE DADOS
+//Temos métodos para inserir, remover, listar e atualizar usuários
+
 public class UsuarioDAO {
 
     //MÉTODO INSERT
@@ -98,8 +100,9 @@ public class UsuarioDAO {
         }      
     }
     
+    
     //MÉTODO PARA LISTAR TODOS OS REGISTROS
-    public static ArrayList<Usuario> listarBD(){
+    public static ArrayList<Usuario> listarBD() throws SQLException{
     	 
         //Sql para selecionar todos os registros do banco de dados
         String sql = "SELECT * FROM usuarios";
@@ -160,4 +163,51 @@ public class UsuarioDAO {
         return lista;
     }
     
+    
+    //MÉTODO PARA ATUALIZAR OS DADOS DE UM USUÁRIO
+    public static void atualizar(Usuario user) throws SQLException{
+        
+        //Sql para selecionar todos os registros do banco de dados
+        String sql = "UPDATE usuarios SET nome = ?, login = ?, senha = ? WHERE id = ?";
+        
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        
+        try{
+            conn= ConnectionFactory.createConnection();
+            pstm= (PreparedStatement) conn.prepareStatement(sql);
+            
+           // Substituindo no sql os valores a serem alterados
+            pstm.setString(1,String.valueOf(user.getNome()));
+            pstm.setString(2,String.valueOf(user.getLogin()));
+            pstm.setString(3,String.valueOf(user.getSenha()));
+            pstm.setString(4,String.valueOf(user.getId()));
+            
+            //Executando a query
+             pstm.execute();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            if(pstm!=null)pstm.close();
+            if(conn!=null)conn.close();
+        }
+        
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

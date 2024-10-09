@@ -15,7 +15,7 @@ public class TesteREMOVE {
     public static void main(String[] args) throws SQLException {
 
             //TESTE REMOVE
-            UsuarioDAO.remove(1);
+            UsuarioDAO.remove(2);
 
     }
 }

@@ -83,6 +83,7 @@ DINÂMICA ENTRE FACTORY, MODEL E CLASSES DAO
     Por essa razão, para manipular o banco de dados é sempre preciso realizar a importação desse package e da classe 
     para utilizar o método conector nela definido.
 
+Exemplo com o método inserir
 2°  Uma vez estabelecida a conexão do banco de dados com sucesso, podemos inserir dados na tabela do banco de dados.
     A dinâmica aqui envolve a classe da tabela do banco e a classe DAO dessa tabela.
 
